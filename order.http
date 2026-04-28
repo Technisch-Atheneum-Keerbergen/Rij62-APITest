@@ -24,11 +24,11 @@ Content-Type: application/json
         23
       ],
       "productId": 5,
-      "quantity": -1
+      "quantity": 5
     }
   ],
   "pickupTime": 0,
-  "tableNumber": 0
+  "tableNumber": 1
 }
 
 

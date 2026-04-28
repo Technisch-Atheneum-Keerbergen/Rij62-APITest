@@ -1,0 +1,55 @@
+@BASE_URL = http://localhost:5148
+
+
+# @name debuglogin
+
+POST {{BASE_URL}}/api/auth/debug HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+
+### Create an order
+
+POST {{BASE_URL}}/api/order HTTP/1.1
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "choices": [23],
+      "productId": 5
+    }
+  ],
+  "pickupTime": 0,
+  "tableNumber": 0
+}
+
+
+### Get order
+
+# @prompt id
+
+GET {{BASE_URL}}/api/order/{{id}} HTTP/1.1
+Authorization: Bearer {{debuglogin.response.body.$.token}}
+
+
+### Get order statuses
+
+# @prompt id
+
+GET {{BASE_URL}}/api/order/{{id}}/status HTTP/1.1
+
+
+### Update order status
+
+# @prompt id
+# @prompt orderItemId
+
+PUT {{BASE_URL}}/api/order/{{id}}/status/{{orderItemId}} HTTP/1.1
+Authorization: Bearer {{debuglogin.response.body.$.token}}
+Content-Type: application/json
+
+"Ready"

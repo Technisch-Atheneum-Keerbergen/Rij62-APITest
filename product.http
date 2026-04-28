@@ -1,0 +1,115 @@
+@BASE_URL = http://localhost:5148
+
+
+# @name debuglogin
+
+POST {{BASE_URL}}/api/auth/debug HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+### Get all Products
+
+GET {{BASE_URL}}/api/product HTTP/1.1
+
+
+### Get product
+
+# @prompt id
+
+GET {{BASE_URL}}/api/product/{{id}} HTTP/1.1
+
+
+### Create a product
+
+# Returns the id of the newly created product as the response
+
+POST {{BASE_URL}}/api/product HTTP/1.1
+Authorization: Bearer {{debuglogin.response.body.$.token}}
+Content-Type: application/json
+
+{
+  "btw": 20,
+  "categoryId": 1,
+  "description": {
+    "Dutch": "Het beste eten",
+    "English": "The best food"
+  },
+  "imgURL": "https://rij62.be/assets/products/bestfood.png",
+  "isAvailable": true,
+  "price": 1,
+  "stock": 1,
+  "title": {
+    "Dutch": "Eten",
+    "English": "Food"
+  }
+}
+
+
+### Update a product
+
+# @prompt id
+
+PUT {{BASE_URL}}/api/product/{{id}} HTTP/1.1
+Authorization: Bearer {{debuglogin.response.body.$.token}}
+Content-Type: application/json
+
+{
+  "btw": 10,
+  "categoryId": 0,
+  "description": {
+    "Dutch": "Niet het beste eten",
+    "English": "Not the best food"
+  },
+  "imgURL": "strawberies",
+  "isAvailable": false,
+  "price": 10,
+  "stock": 3,
+  "title": {
+    "Dutch": "Eten",
+    "English": "Food"
+  }
+}
+
+
+### Add a product step
+
+# Returns the id of the create step
+
+# @prompt id
+
+POST {{BASE_URL}}/api/product/{{id}}/step HTTP/1.1
+Authorization: Bearer {{debuglogin.response.body.$.token}}
+Content-Type: application/json
+
+{
+  "Options": [
+    7,
+    6
+  ],
+  "defaultOptionId": null,
+  "multipleChoice": false,
+  "title": {
+    "Dutch": "Kies een soort melk",
+    "English": "Choose a type of milk"
+  }
+}
+
+
+### Delete a product step
+
+# @prompt product_id
+# @prompt step_id
+
+DELETE {{BASE_URL}}/api/product/{{product_id}}/step/{{step_id}} HTTP/1.1
+Authorization: Bearer {{debuglogin.response.body.$.token}}
+Content-Type: application/json
+
+### Delete a product
+
+# @prompt id
+
+DELETE {{BASE_URL}}/api/product/{{id}} HTTP/1.1
+Authorization: Bearer {{debuglogin.response.body.$.token}}

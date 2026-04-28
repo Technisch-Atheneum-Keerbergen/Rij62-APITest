@@ -31,6 +31,7 @@ Authorization: Bearer {{debuglogin.response.body.$.token}}
 Content-Type: application/json
 
 {
+  "imgUrl": "https://thebestimages.example.com",
   "name": {
     "Dutch": "Dingen",
     "English": "Things"
@@ -48,6 +49,7 @@ Authorization: Bearer {{debuglogin.response.body.$.token}}
 Content-Type: application/json
 
 {
+  "imgUrl": "https://thebestimages.example.com",
   "name": {
     "Dutch": "Dingen",
     "English": "Things"

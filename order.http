@@ -1,5 +1,6 @@
-@BASE_URL = http://localhost:5148
+### 
 
+@BASE_URL = http://localhost:5148
 
 # @name debuglogin
 
@@ -19,8 +20,11 @@ Content-Type: application/json
 {
   "items": [
     {
-      "choices": [23],
-      "productId": 5
+      "choices": [
+        23
+      ],
+      "productId": 5,
+      "quantity": -1
     }
   ],
   "pickupTime": 0,

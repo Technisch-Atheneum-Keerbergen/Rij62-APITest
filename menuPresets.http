@@ -1,0 +1,64 @@
+### 
+
+@BASE_URL = http://localhost:5148
+
+# @name debuglogin
+
+POST {{BASE_URL}}/api/auth/debug HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+
+### Get all Products
+
+GET {{BASE_URL}}/api/product HTTP/1.1
+
+
+### Get all menu presets
+
+GET {{BASE_URL}}/api/menuPreset HTTP/1.1
+Authorization: Bearer {{debuglogin.response.body.$.token}}
+
+
+### Create menu preset
+
+POST {{BASE_URL}}/api/menuPreset HTTP/1.1
+Authorization: Bearer {{debuglogin.response.body.$.token}}
+Content-Type: application/json
+
+{
+  "Enabled": true,
+  "Name": "Test preset",
+  "Repeat": [
+    "Monday",
+    "Friday"
+  ]
+}
+
+
+### Update menu preset
+
+# @prompt id
+
+PUT {{BASE_URL}}/api/menuPreset/{{id}} HTTP/1.1
+Authorization: Bearer {{debuglogin.response.body.$.token}}
+Content-Type: application/json
+
+{
+  "Enabled": false,
+  "Name": "Test preset edited",
+  "Repeat": [
+    "Saturday"
+  ]
+}
+
+
+### Delete menu preset
+
+# @prompt id
+
+DELETE {{BASE_URL}}/api/menuPreset/{{id}} HTTP/1.1
+Authorization: Bearer {{debuglogin.response.body.$.token}}

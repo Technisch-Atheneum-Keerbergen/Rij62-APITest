@@ -1,0 +1,50 @@
+### 
+
+@BASE_URL = http://localhost:5148
+
+# @name debuglogin
+
+POST {{BASE_URL}}/api/auth/debug HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+### Get all users
+
+GET {{BASE_URL}}/api/user HTTP/1.1
+Authorization: Bearer {{debuglogin.response.body.$.token}}
+
+### Get user
+# @prompt id
+GET {{BASE_URL}}/api/user/{{id}} HTTP/1.1
+Authorization: Bearer {{debuglogin.response.body.$.token}}
+
+
+### Update user
+# @prompt id
+
+PUT {{BASE_URL}}/api/user/{{id}}
+Authorization: Bearer {{debuglogin.response.body.$.token}}
+Content-Type: application/json
+
+{
+    "isAdmin": false,
+    "displayName": "Mr. Deluxe"
+}
+
+### Delete user
+# @prompt id
+DELETE {{BASE_URL}}/api/user/{{id}}
+Authorization: Bearer {{debuglogin.response.body.$.token}}
+
+### Create user
+
+POST {{BASE_URL}}/api/user
+Authorization: Bearer {{debuglogin.response.body.$.token}}
+Content-Type: application/json
+
+{
+    "isAdmin": true
+}

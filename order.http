@@ -11,6 +11,7 @@ Content-Type: application/json
   "id": 1
 }
 
+
 ### Create an order
 
 POST {{BASE_URL}}/api/order HTTP/1.1
@@ -26,15 +27,15 @@ Content-Type: application/json
       "quantity": 5
     }
   ],
-  "pickupTime": 0,
+  "pickupTime": null,
   "tableNumber": 1
 }
 
+
 ### Get orders
 
-GET {{BASE_URL}}/api/order HTTP/1.1
+GET {{BASE_URL}}/api/order?count=1&showPaymentPending=true HTTP/1.1
 Authorization: Bearer {{debuglogin.response.body.$.token}}
-
 
 
 ### Get order

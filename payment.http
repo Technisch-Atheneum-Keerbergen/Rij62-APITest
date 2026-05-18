@@ -1,0 +1,10 @@
+### 
+
+@BASE_URL = http://localhost:5148
+
+
+### Pay for an order
+
+# @prompt id
+
+POST {{BASE_URL}}/api/payment/pay/{{id}} HTTP/1.1

@@ -5,6 +5,6 @@
 
 ### Pay for an order
 
-# @prompt id
+# @prompt order_id
 
-POST {{BASE_URL}}/api/payment/pay/{{id}} HTTP/1.1
+POST {{BASE_URL}}/api/payment/pay/{{order_id}} HTTP/1.1

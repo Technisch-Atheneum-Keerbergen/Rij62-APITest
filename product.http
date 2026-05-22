@@ -34,7 +34,7 @@ Content-Type: application/json
 
 {
   "btw": 20,
-  "categoryId": 1,
+  "categoryId": null,
   "description": {
     "Dutch": "Het beste eten",
     "English": "The best food"

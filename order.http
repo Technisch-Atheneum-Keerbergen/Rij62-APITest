@@ -18,6 +18,7 @@ POST {{BASE_URL}}/api/order HTTP/1.1
 Content-Type: application/json
 
 {
+  "comment": "Can you deliver it on a golden plate?",
   "items": [
     {
       "choices": [
@@ -28,19 +29,21 @@ Content-Type: application/json
     }
   ],
   "pickupTime": null,
-  "tableNumber": 1,
-  "comment": "Can you deliver it on a golden plate?"
+  "tableNumber": 1
 }
 
+
 ### Create empty order
+
 POST {{BASE_URL}}/api/order HTTP/1.1
 Content-Type: application/json
 
 {
   "items": [],
   "pickupTime": null,
-  "tableNumber": 1,
+  "tableNumber": 1
 }
+
 
 ### Get orders
 
@@ -72,4 +75,6 @@ PUT {{BASE_URL}}/api/order/{{id}}/status/{{orderItemId}} HTTP/1.1
 Authorization: Bearer {{debuglogin.response.body.$.token}}
 Content-Type: application/json
 
-"Ready"
+{
+  "status": "Ready"
+}

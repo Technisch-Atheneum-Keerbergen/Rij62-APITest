@@ -1,0 +1,56 @@
+<h1>WebSocket Debugger</h1>
+<div
+  id="messages"
+  style="display: flex; flex-direction: column; gap: 4px"
+></div>
+
+<script>
+  async function auth(base_url) {
+    console.log("Doing debug auth");
+    const resp = await fetch(base_url + "/api/auth/debug", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: 1,
+      }),
+    });
+    const respJson = await resp.json();
+    console.log(respJson);
+    return respJson.token;
+  }
+
+  (async () => {
+    const BASE_URL = "http://localhost:5148";
+
+    const token = await auth(BASE_URL);
+    const ws = new WebSocket(
+      BASE_URL + "/api/order/events?showPaymentPending=true",
+      ["rij62.OrderEvents", token],
+    );
+
+    function logMessage(msg, color) {
+      const messages = document.querySelector("#messages");
+      const message = document.createElement("code");
+      message.innerText = msg;
+      message.style =
+        "background: " +
+        color +
+        "; color: white; padding: 4px; white-space:pre";
+      messages.appendChild(message);
+    }
+
+    ws.addEventListener("open", (e) => {
+      logMessage("websocket connection open", "green");
+    });
+
+    ws.addEventListener("close", (e) => {
+      logMessage("websocket connection closed", "red");
+    });
+
+    ws.addEventListener("message", (e) => {
+      const json = JSON.parse(e.data);
+      logMessage(JSON.stringify(json, null, 2), "gray");
+      console.log(json);
+    });
+  })();
+</script>

@@ -60,19 +60,23 @@ Authorization: Bearer {{debuglogin.response.body.$.token}}
 Content-Type: application/json
 
 {
-  "btw": 10,
-  "categoryId": 0,
+  "btw": 21,
+  "categoryId": 3,
   "description": {
-    "Dutch": "Niet het beste eten",
-    "English": "Not the best food"
+    "Dutch": "",
+    "English": ""
   },
-  "imgURL": "strawberies",
+  "enabledByPreset": true,
+  "id": 23,
+  "imgURL": "http://localhost:5148/api/image/35fe8882-d8cb-4a0e-a896-a2b06b63d1b8",
   "isAvailable": false,
-  "price": 10,
-  "stock": 3,
+  "menuPresetId": null,
+  "price": 0,
+  "steps": [],
+  "stock": 100,
   "title": {
-    "Dutch": "Eten",
-    "English": "Food"
+    "Dutch": "Ketchup",
+    "English": "Ketchup"
   }
 }
 

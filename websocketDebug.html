@@ -1,31 +1,25 @@
-<h1>WebSocket Debugger</h1>
-<div
-  id="messages"
-  style="display: flex; flex-direction: column; gap: 4px"
-></div>
+<!doctype html>
 
-<script>
-  async function auth(base_url) {
-    console.log("Doing debug auth");
-    const resp = await fetch(base_url + "/api/auth/debug", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id: 1,
-      }),
-    });
-    const respJson = await resp.json();
-    console.log(respJson);
-    return respJson.token;
-  }
+<body>
+  <h1>WebSocket Debugger</h1>
 
-  (async () => {
+  <script>
     const BASE_URL = "http://localhost:5148";
+    let ws;
 
-    const token = await auth(BASE_URL);
-
-    const url = `${BASE_URL}/api/order/events?showPaymentPending=true&apiKey=${encodeURIComponent(token)}`;
-    const ws = new WebSocket(url, ["rij62.OrderEvents"]);
+    async function auth(base_url) {
+      console.log("Doing debug auth");
+      const resp = await fetch(base_url + "/api/auth/debug", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: 1,
+        }),
+      });
+      const respJson = await resp.json();
+      console.log(respJson);
+      return respJson.token;
+    }
 
     function logMessage(msg, color) {
       const messages = document.querySelector("#messages");
@@ -38,18 +32,55 @@
       messages.appendChild(message);
     }
 
-    ws.addEventListener("open", (e) => {
-      logMessage("websocket connection open", "green");
-    });
+    async function openWs() {
+      if (ws != null) {
+        closeWs();
+      }
 
-    ws.addEventListener("close", (e) => {
-      logMessage("websocket connection closed", "red");
-    });
+      const token = await auth(BASE_URL);
+      const url = `${BASE_URL}/api/order/events?showPaymentPending=true&apiKey=${encodeURIComponent(token)}`;
+      ws = new WebSocket(url, ["rij62.OrderEvents"]);
 
-    ws.addEventListener("message", (e) => {
-      const json = JSON.parse(e.data);
-      logMessage(JSON.stringify(json, null, 2), "gray");
-      console.log(json);
-    });
-  })();
-</script>
+      ws.addEventListener("open", (e) => {
+        logMessage("websocket connection open", "green");
+      });
+
+      ws.addEventListener("close", (e) => {
+        const color = e.code == 1000 ? "blue" : "red";
+        logMessage(
+          "websocket connection closed " + e.code + ": " + e.reason,
+          color,
+        );
+      });
+
+      ws.addEventListener("message", (e) => {
+        const json = JSON.parse(e.data);
+        logMessage(JSON.stringify(json, null, 2), "gray");
+        console.log(json);
+      });
+    }
+    function closeWs() {
+      ws.close();
+      ws = null;
+    }
+    async function fastClose() {
+      await openWs();
+      ws.addEventListener("open", (e) => {
+        closeWs();
+      });
+    }
+
+    (async () => {
+      await openWs();
+    })();
+  </script>
+
+  <div
+    id="messages"
+    style="display: flex; flex-direction: column; gap: 4px"
+  ></div>
+
+  <button onclick="closeWs()">Close websocket</button>
+  <button onclick="openWs()">Open websocket</button>
+  <button onclick="fastClose()">Test fast close</button>
+</body>

@@ -105,6 +105,29 @@ Content-Type: application/json
 }
 
 
+### Update a product step
+
+# @prompt product_id
+# @prompt step_id
+
+PUT {{BASE_URL}}/api/product/{{product_id}}/step/{{step_id}} HTTP/1.1
+Authorization: Bearer {{debuglogin.response.body.$.token}}
+Content-Type: application/json
+
+{
+  "Options": [
+    7,
+    6
+  ],
+  "defaultOptionId": null,
+  "multipleChoice": false,
+  "title": {
+    "Dutch": "Kies een soort melk",
+    "English": "Choose a type of milk"
+  }
+}
+
+
 ### Delete a product step
 
 # @prompt product_id
